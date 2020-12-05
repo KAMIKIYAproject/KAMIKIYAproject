@@ -18,22 +18,20 @@ Window.load_resources do
     notec = Note.new(300, 0, note_img, K_N)
     noted = Note.new(400, 0, note_img, K_M)
     
+    note = [notea,noteb,notec,noted]
+    
     Window.loop do
     #  if Input.key_push?(K_B) == true
     #     p "test"
     #     note.vanish
     # end
-     if !note.vanished?
-       notea.update
-       notea.draw
-       noteb.update
-       noteb.draw
-       notec.update
-       notec.draw
-       noted.update
-       noted.draw
-       
-     end
+    note.each do |n| 
+         if !n.vanished?
+           n.update
+           n.draw
+           
+         end
+    end
 
      
     end
