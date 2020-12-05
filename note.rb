@@ -3,12 +3,12 @@ class Note < Sprite
     super(x, y, image)
     @keycode = keycode
   end
-  def update
+  def update(ablekeydown)
     self.y += 1
     # if self.y >= Window.height - self.image.height
     #   self.vanish
     # end
-    if Input.key_push?(@keycode) == true
+    if ablekeydown and Input.key_push?(@keycode) == true
         p "test"
         self.vanish
     end

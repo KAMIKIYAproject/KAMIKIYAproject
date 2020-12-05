@@ -28,10 +28,24 @@ Window.load_resources do
     #  if Input.key_push?(K_B) == true
     #     p "test"
     #     note.vanish
+
     # end
+    Window.draw_box(1, hantei1 , 800 , hantei1+1, C_RED)
+    Window.draw_box(1, hantei2 , 800 , hantei2+1, C_RED)
+    Window.draw_box(1, hantei3 , 800 , hantei3+1, C_RED)
+
     note.each do |n| 
          if !n.vanished?
-           n.update
+           #n.update
+           flag_ablekeydown = false
+           if n.y+n.image.height >= hantei3 and n.y+n.image.height <= hantei1
+               flag_ablekeydown = true
+           end
+           if n.y+n.image.height >= hantei2 and n.y <= hantei2
+               Window.draw_box(1, hantei2 , 800 , hantei2+1, C_BLUE)
+           end
+           n.update(flag_ablekeydown)
+           
            n.draw
            
          end
@@ -43,9 +57,6 @@ Window.load_resources do
     end
     
     
-    Window.draw_box(1, hantei1 , 800 , hantei1+1, C_RED)
-    Window.draw_box(1, hantei2 , 800 , hantei2+1, C_RED)
-    Window.draw_box(1, hantei3 , 800 , hantei3+1, C_RED)
     
      
     end
