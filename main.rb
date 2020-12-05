@@ -20,6 +20,10 @@ Window.load_resources do
     
     note = [notea,noteb,notec,noted]
     
+    hantei1 = Window.height*11/12
+    hantei2 = Window.height*10/12
+    hantei3 = Window.height*9/12
+    
     Window.loop do
     #  if Input.key_push?(K_B) == true
     #     p "test"
@@ -31,8 +35,18 @@ Window.load_resources do
            n.draw
            
          end
+         
+    if n.y == hantei1
+        n.vanish
     end
-
+    
+    end
+    
+    
+    Window.draw_box(1, hantei1 , 800 , hantei1+1, C_RED)
+    Window.draw_box(1, hantei2 , 800 , hantei2+1, C_RED)
+    Window.draw_box(1, hantei3 , 800 , hantei3+1, C_RED)
+    
      
     end
   
