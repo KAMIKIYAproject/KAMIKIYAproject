@@ -47,30 +47,27 @@ Window.load_resources do
     Window.draw_box(1, hantei2 , 800 , hantei2+1, C_RED)
     Window.draw_box(1, hantei3 , 800 , hantei3+1, C_RED)
 
-    note.each do |n| 
-         if !n.vanished?
-           #n.update
-           flag_ablekeydown = false
-           if n.y+n.image.height >= hantei3 and n.y+n.image.height <= hantei1
-               flag_ablekeydown = true
-           end
-           if n.y+n.image.height >= hantei2 and n.y <= hantei2
-               Window.draw_box(1, hantei2 , 800 , hantei2+1, C_BLUE)
-           end
-           n.update(flag_ablekeydown)
-           
-           n.draw
-           
-         end
-         
-    if n.y == hantei1
-        n.vanish
-    end
-    
-    end
-    
-    
-    
+        note.each do |n| 
+             if !n.vanished?
+               #n.update
+               flag_ablekeydown = false
+               if n.y+n.image.height >= hantei3 and n.y+n.image.height <= hantei1
+                   flag_ablekeydown = true
+               end
+               if n.y+n.image.height >= hantei2 and n.y <= hantei2
+                   Window.draw_box(1, hantei2 , 800 , hantei2+1, C_BLUE)
+               end
+               n.update(flag_ablekeydown)
+               
+               n.draw
+               
+             end
+             
+             if n.y == hantei1
+                n.vanish
+             end
+        
+        end
      
     end
   
