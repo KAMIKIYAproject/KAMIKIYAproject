@@ -18,13 +18,13 @@ Window.load_resources do
     # note_img = Image[:note]
     # note_img.set_color_key([0, 0, 0])
     notea_img = Image[:notea]
-    notea_img.set_color_key([1, 1, 1])
+    notea_img.set_color_key([255, 255, 255])
     noteb_img = Image[:noteb]
-    noteb_img.set_color_key([1, 1, 1])
+    noteb_img.set_color_key([255, 255, 255])
     notec_img = Image[:notec]
-    notec_img.set_color_key([1, 1, 1])
+    notec_img.set_color_key([255, 255, 255])
     noted_img = Image[:noted]
-    noted_img.set_color_key([1, 1, 1])
+    noted_img.set_color_key([255, 255, 255])
     
     notea = Note.new(100, 0, notea_img, K_V)
     noteb = Note.new(200, 0, noteb_img, K_B)
