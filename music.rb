@@ -49,18 +49,11 @@ class Music
     #               [:upper]：上ライン，[:middle]：中央ライン，[:under]：下ライン
     def update(vanish_lines)
 
-        # カレントフレームの表示
-        p format("current flame:[%d]", @current_flame)
+        # カレントフレームの表示(デバッグ用)
+        # p format("current flame:[%d]", @current_flame)
         
-        # currentにあるノーツを出現させる
-        if @current_flame < @notes.length then
-            @notes[@current_flame].each_with_index do |note, i|
-                if note[:note] != nil then
-                    @notes[@current_flame][i][:note].y = 10     # 汚い書き方だがこうしないと値を更新できないっぽい，以降も同じ
-                    @notes[@current_flame][i][:move] = true
-                end
-            end
-        end
+        # ノーツを出現させる
+        self.pop(base_y=10)
 
         # moveがtrueのノーツを更新
         # head = Array.new(@lane + 1) do true end  # 先頭のみを消したかった
@@ -212,4 +205,18 @@ class Music
         end end
         p "set end"
     end
+    
+
+    # currentにあるノーツを出現させる
+    # base_y: 現れるy座標
+    def pop(base_y)
+        if @current_flame < @notes.length then
+            @notes[@current_flame].each_with_index do |note, i|
+                if note[:note] != nil then
+                    @notes[@current_flame][i][:note].y = base_y     # 汚い書き方だがこうしないと値を更新できないっぽい，以降も同じ
+                    @notes[@current_flame][i][:move] = true
+                end
+            end
+        end
+
 end
