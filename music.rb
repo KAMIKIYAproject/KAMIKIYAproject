@@ -55,48 +55,26 @@ class Music
             p_ format("Length of Lane is not equal length of able_keydowns.")
         end
         
-        # カレントが超えていたら(とりあえず)何もしない
-        # if @current_flame >= @flame
-        #     p format("Message: end music.")  # ログには残す
-        
-        # else
-            # カレント(現在)のフレームのノーツを処理する
-            # @notes[@current_flame].each_with_index do |note, index|
-            #     # p format("index:[%d]", index)
-            #     # n = @notes[@current_flame][index][:note]
-            #     # m = @notes[@current_flame][index][:move]
-                
-            #     # m = true
-                
-            #     if n != nil then
-            #         n.update(true) # 更新処理
-            #         n.draw   # 描画
-            #     end
-            # end
-            
-            # currentにあるノーツを出現させる
-            if @current_flame < @notes.length then
-                @notes[@current_flame].each_with_index do |note, i|
-                    # p "check"
-                    if note[:note] != nil then
-                        # p "set note"
-                        @notes[@current_flame][i][:note].y = 10
-                        # p "set move"
-                        @notes[@current_flame][i][:move] = true
-                    end
+        # currentにあるノーツを出現させる
+        if @current_flame < @notes.length then
+            @notes[@current_flame].each_with_index do |note, i|
+                if note[:note] != nil then
+                    @notes[@current_flame][i][:note].y = 10     # 汚い書き方だがこうしないと値を更新できないっぽい，以降も同じ
+                    @notes[@current_flame][i][:move] = true
                 end
             end
+        end
             
-            # moveがtrueのノーツを更新
-            @notes.each_with_index do |notes, i| notes.each_with_index do |note, j|
-                if note[:move] and !note[:note].vanished? then
-                    @notes[i][j][:note].draw
-                    @notes[i][j][:note].update(true)
-                end
-            end end
+        # moveがtrueのノーツを更新
+        @notes.each_with_index do |notes, i| notes.each_with_index do |note, j|
+            # 出現済みかつ消されていないとき
+            if note[:move] and !note[:note].vanished? then
+                @notes[i][j][:note].draw
+                @notes[i][j][:note].update(able_keydowns[j])
+            end
+        end end
             
-        # end
-        
+        # カレントを進める
         @current_flame += 1
     end
     
