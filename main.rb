@@ -39,73 +39,53 @@ Window.load_resources do
     loop_count = 0
     
     Window.loop do
-    #  if Input.key_push?(K_B) == true
-    #     p "test"
-    #     note.vanish
-
-    # end
+        
+    if Input.key_push?(K_BACK)
+        p "exit"
+        Window.draw_font(0, 0, "end", Font.default, color: C_GREEN)
+        break
+    end
+    
     Window.draw_box(1, hantei1 , 800 , hantei1+1, C_RED)
     Window.draw_box(1, hantei2 , 800 , hantei2+1, C_RED)
     Window.draw_box(1, hantei3 , 800 , hantei3+1, C_RED)
 
-        note.each do |n| 
-             if !n.vanished?
-               #n.update
-               flag_ablekeydown = false
-               if n.y+n.image.height >= hantei3 and n.y+n.image.height <= hantei1
+    note.each do |n| 
+        p note.length
+        if !n.vanished?
+            #n.update
+            flag_ablekeydown = false
+            if n.y+n.image.height >= hantei3 and n.y+n.image.height <= hantei1
                    flag_ablekeydown = true
-               end
-               if n.y+n.image.height >= hantei2 and n.y <= hantei2
+            end
+            if n.y+n.image.height >= hantei2 and n.y <= hantei2
                    Window.draw_box(1, hantei2 , 800 , hantei2+1, C_BLUE)
-               end
+            end
                
-               n.update(flag_ablekeydown)
-            #   if  n.vanished? == true
-            #          if n.y+n.image.height >= hantei2 and n.y <= hantei2
-            #              Window.draw_font(n.x, 100, "OK", Font.default, color: C_GREEN)
-            #              p "OK"
-            #              ok_count += 1
-            #          else
-            #              Window.draw_font(n.x, 100, "miss", Font.default, color: C_GREEN)
-            #              p "miss"
-            #              miss_count += 1
-            #          end
-            #   end
+            n.update(flag_ablekeydown)
+            
             if  n.vanished? == true
-                # if n.hyouka(loop_count)
-                #     n.show_ok(loop_count)
-                # end
-                # if !n.hyouka(loop_count)
-                #     n.show_miss(loop_count)
-                # end
+                
                 n.hyouka(loop_count)
             end
-            # if  n.vanished? == false
-                # if n.hyouka(loop_count)
-                #     n.show_ok(loop_count)
-                # end
-                # if !n.hyouka(loop_count)
-                #     n.show_miss(loop_count)
-                # end
-                n.show_ok(loop_count)
-                n.show_miss(loop_count)
-                p "flag_show_ok(#{n.object_id}):#{n.flag_show_ok}"
-                p "flag_show_miss(#{n.object_id}):#{n.flag_show_miss}"
-            # end
-            # n.show_ok(loop_count)
-            # n.show_miss(loop_count)
-               n.draw
+
+            n.draw
                
-             end
-             
-             if n.y == hantei1
-                n.vanish
-             end
-        
         end
+        n.show_ok(loop_count)
+        n.show_miss(loop_count)
+        p "flag_show_ok(#{n.object_id}):#{n.flag_show_ok}"
+        p "flag_show_miss(#{n.object_id}):#{n.flag_show_miss}"
+             
+        if n.y == hantei1
+            n.vanish
+        end
+        
+    end
     
     loop_count += 1
-     
+    
+    
     end
   
 end
