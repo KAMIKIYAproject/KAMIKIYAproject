@@ -199,11 +199,12 @@ class Music
             #     @notes[flame][jndex][:note] = Note.new(@lane_pos_xs[jndex], -50, @note_imgs[jndex], @note_keycodes[jndex])
             # end
             
-            if flame % 59 == 0and jndex == 4 then
-                @notes[flame][jndex][:note] = Note.new(@lane_pos_xs[jndex], -50, @note_imgs[jndex], @note_keycodes[jndex])
-            elsif flame % 47 == 0 and jndex == 5 then
-                @notes[flame][jndex][:note] = Note.new(@lane_pos_xs[jndex], -50, @note_imgs[jndex], @note_keycodes[jndex])
-            elsif music_map[flame][jndex] == 1 then
+            # if flame % 59 == 0 and jndex == 4 then
+            #     @notes[flame][jndex][:note] = Note.new(@lane_pos_xs[jndex], -50, @note_imgs[jndex], @note_keycodes[jndex])
+            # elsif flame % 47 == 0 and jndex == 5 then
+            #     @notes[flame][jndex][:note] = Note.new(@lane_pos_xs[jndex], -50, @note_imgs[jndex], @note_keycodes[jndex])
+            
+            if music_map[flame][jndex] == 1 then
                 @notes[flame][jndex][:note] = Note.new(@lane_pos_xs[jndex], -50, @note_imgs[jndex], @note_keycodes[jndex])
             end
             
