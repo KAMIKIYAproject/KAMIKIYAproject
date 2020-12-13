@@ -8,7 +8,7 @@ Image.register(:notea, 'images/note_a.png')
 Image.register(:noteb, 'images/note_b.png')
 Image.register(:notec, 'images/note_c.png')
 Image.register(:noted, 'images/note_d.png')
-
+Image.register(:op, 'images/back1.png')
 
 Window.load_resources do
     Window.width  = 800
@@ -16,6 +16,7 @@ Window.load_resources do
     
     # note_img = Image[:note]
     # note_img.set_color_key([0, 0, 0])
+    op_img = Image[:op]
     notea_img = Image[:notea]
     notea_img.set_color_key([255, 255, 255])
     noteb_img = Image[:noteb]
@@ -39,9 +40,10 @@ Window.load_resources do
     loop_count = 0
     
     Window.loop do
+        Window.draw(0,0,op_img,z=0)
         
     if Input.key_push?(K_BACK)
-        Window.draw_font(0, 0, "end", Font.default, color: C_GREEN)
+        Window.draw_font(0, 0, "end", Font.default, color: C_BLACK)
         Window.pause
     end
     

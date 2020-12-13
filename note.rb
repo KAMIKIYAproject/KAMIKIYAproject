@@ -53,7 +53,7 @@ class Note < Sprite
       dis = loop_count_af - @loop_count
       p dis
       if dis <= 20# and @ablekeydown == true
-        Window.draw_font(self.x, 100, "OK", Font.default, color: C_GREEN)
+        Window.draw_font(self.x, 100, "OK", Font.default, color: C_BLACK)
         p "OK"
       else
         @flag_show_ok == false
@@ -67,7 +67,7 @@ class Note < Sprite
       dis = loop_count_af - @loop_count
       p dis
       if dis <= 20# and @ablekeydown == true
-        Window.draw_font(self.x, 100, "miss", Font.default, color: C_GREEN)
+        Window.draw_font(self.x, 100, "miss", Font.default, color: C_BLACK)
         p "miss"
       else
         @flag_show_miss == false
