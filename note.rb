@@ -27,8 +27,8 @@ class Note < Sprite
 		@ablekeydown = ablekeydown
 		self.y += 1
 		if ablekeydown and Input.key_push?(@keycode) == true
-				# p "keydown"
-				self.vanish
+			# p "keydown"
+			self.vanish
 		end
 	end
 	
