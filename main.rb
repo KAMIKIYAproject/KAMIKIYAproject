@@ -16,7 +16,7 @@ Window.load_resources do
     
     # note_img = Image[:note]
     # note_img.set_color_key([0, 0, 0])
-    op_img = Image[:op]
+    play_img = Image[:op]
     notea_img = Image[:notea]
     notea_img.set_color_key([255, 255, 255])
     noteb_img = Image[:noteb]
@@ -39,54 +39,69 @@ Window.load_resources do
     
     loop_count = 0
     
+    # 画面切り替え用変数：mode
+    # mode = :title   # タイトル画面
+    mode = :play  # プレイ画面
+    # mode = :result    # リザルト画面
+    
     Window.loop do
-        Window.draw(0,0,op_img,z=0)
         
-    if Input.key_push?(K_BACK)
-        Window.draw_font(0, 0, "end", Font.default, color: C_BLACK)
-        Window.pause
-    end
-    
-    Window.draw_box(1, hantei1 , 800 , hantei1+1, C_RED)
-    Window.draw_box(1, hantei2 , 800 , hantei2+1, C_RED)
-    Window.draw_box(1, hantei3 , 800 , hantei3+1, C_RED)
-
-    note.each do |n| 
-        p note.length
-        if !n.vanished?
-            #n.update
-            flag_ablekeydown = false
-            if n.y+n.image.height >= hantei3 and n.y+n.image.height <= hantei1
-                   flag_ablekeydown = true
-            end
-            if n.y+n.image.height >= hantei2 and n.y <= hantei2
-                   Window.draw_box(1, hantei2 , 800 , hantei2+1, C_BLUE)
-            end
-               
-            n.update(flag_ablekeydown)
+        # タイトル画面の表示とか
+        if mode == :title
+            # コードを書く
+        
+        
+        # プレイ中の表示や操作
+        elsif mode == :play
+            Window.draw(0, 0, play_img, z=0)
             
-            if  n.vanished? == true
-                
-                n.hyouka(loop_count)
+            if Input.key_push?(K_BACK)
+                Window.draw_font(0, 0, "end", Font.default, color: C_BLACK)
+                Window.pause
             end
-
-            n.draw
-               
-        end
-        n.show_ok(loop_count)
-        n.show_miss(loop_count)
-        p "flag_show_ok(#{n.object_id}):#{n.flag_show_ok}"
-        p "flag_show_miss(#{n.object_id}):#{n.flag_show_miss}"
-             
-        if n.y == hantei1
-            n.vanish
-        end
         
+            Window.draw_box(1, hantei1 , 800 , hantei1+1, C_RED)
+            Window.draw_box(1, hantei2 , 800 , hantei2+1, C_RED)
+            Window.draw_box(1, hantei3 , 800 , hantei3+1, C_RED)
+    
+            note.each do |n| 
+                # p note.length
+                if !n.vanished?
+                    #n.update
+                    flag_ablekeydown = false
+                    if n.y+n.image.height >= hantei3 and n.y+n.image.height <= hantei1
+                        flag_ablekeydown = true
+                    end
+                    if n.y+n.image.height >= hantei2 and n.y <= hantei2
+                        Window.draw_box(1, hantei2 , 800 , hantei2+1, C_BLUE)
+                    end
+        
+                    n.update(flag_ablekeydown)
+        
+                    if  n.vanished? == true
+                        n.hyouka(loop_count)
+                    end
+    
+                    n.draw
+                   
+                end
+    
+                n.show_ok(loop_count)
+                n.show_miss(loop_count)
+                # p "flag_show_ok(#{n.object_id}):#{n.flag_show_ok}"
+                # p "flag_show_miss(#{n.object_id}):#{n.flag_show_miss}"
+                 
+                if n.y == hantei1
+                    n.vanish
+                end
+            
+            end
+            loop_count += 1
+        
+        # リザルト画面の表示など
+        elsif mode == :result
+            # コードを書く
+            
+        end
     end
-    
-    loop_count += 1
-    
-    
-    end
-  
 end
