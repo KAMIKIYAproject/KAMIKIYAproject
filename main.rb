@@ -10,7 +10,6 @@ Image.register(:notec, 'images/note_c.png')
 Image.register(:noted, 'images/note_d.png')
 
 
-
 Window.load_resources do
     Window.width  = 800
     Window.height = 600
@@ -26,16 +25,18 @@ Window.load_resources do
     noted_img = Image[:noted]
     noted_img.set_color_key([255, 255, 255])
     
-    notea = Note.new(100, 0, notea_img, K_V)
-    noteb = Note.new(200, 0, noteb_img, K_B)
-    notec = Note.new(300, 0, notec_img, K_N)
-    noted = Note.new(400, 0, noted_img, K_M)
+    notea = Note.new(100, 300, notea_img, K_V)
+    noteb = Note.new(200, 300, noteb_img, K_B)
+    notec = Note.new(300, 300, notec_img, K_N)
+    noted = Note.new(400, 300, noted_img, K_M)
     
     note = [notea,noteb,notec,noted]
     
     hantei1 = Window.height*11/12
     hantei2 = Window.height*10/12
     hantei3 = Window.height*9/12
+    
+    loop_count = 0
     
     Window.loop do
     #  if Input.key_push?(K_B) == true
@@ -57,8 +58,42 @@ Window.load_resources do
                if n.y+n.image.height >= hantei2 and n.y <= hantei2
                    Window.draw_box(1, hantei2 , 800 , hantei2+1, C_BLUE)
                end
-               n.update(flag_ablekeydown)
                
+               n.update(flag_ablekeydown)
+            #   if  n.vanished? == true
+            #          if n.y+n.image.height >= hantei2 and n.y <= hantei2
+            #              Window.draw_font(n.x, 100, "OK", Font.default, color: C_GREEN)
+            #              p "OK"
+            #              ok_count += 1
+            #          else
+            #              Window.draw_font(n.x, 100, "miss", Font.default, color: C_GREEN)
+            #              p "miss"
+            #              miss_count += 1
+            #          end
+            #   end
+            if  n.vanished? == true
+                # if n.hyouka(loop_count)
+                #     n.show_ok(loop_count)
+                # end
+                # if !n.hyouka(loop_count)
+                #     n.show_miss(loop_count)
+                # end
+                n.hyouka(loop_count)
+            end
+            # if  n.vanished? == false
+                # if n.hyouka(loop_count)
+                #     n.show_ok(loop_count)
+                # end
+                # if !n.hyouka(loop_count)
+                #     n.show_miss(loop_count)
+                # end
+                n.show_ok(loop_count)
+                n.show_miss(loop_count)
+                p "flag_show_ok(#{n.object_id}):#{n.flag_show_ok}"
+                p "flag_show_miss(#{n.object_id}):#{n.flag_show_miss}"
+            # end
+            # n.show_ok(loop_count)
+            # n.show_miss(loop_count)
                n.draw
                
              end
@@ -68,6 +103,8 @@ Window.load_resources do
              end
         
         end
+    
+    loop_count += 1
      
     end
   
