@@ -9,6 +9,8 @@ Image.register(:noteb, 'images/note_b.png')
 Image.register(:notec, 'images/note_c.png')
 Image.register(:noted, 'images/note_d.png')
 Image.register(:op, 'images/back1.png')
+Image.register(:opening, 'images/back2.png')
+
 
 Window.load_resources do
     Window.width  = 800
@@ -17,6 +19,7 @@ Window.load_resources do
     # note_img = Image[:note]
     # note_img.set_color_key([0, 0, 0])
     play_img = Image[:op]
+    opening_img = Image[:opening]#op画像
     notea_img = Image[:notea]
     notea_img.set_color_key([255, 255, 255])
     noteb_img = Image[:noteb]
@@ -49,6 +52,9 @@ Window.load_resources do
         # タイトル画面の表示とか
         if mode == :title
             # コードを書く
+            #.draw(x, y, image, z = 0) ⇒ Object
+        Window.draw(0, 0, opening_img, z=0)#画像表示
+        
         
         
         # プレイ中の表示や操作
