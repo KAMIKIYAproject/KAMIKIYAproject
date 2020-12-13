@@ -41,9 +41,8 @@ Window.load_resources do
     Window.loop do
         
     if Input.key_push?(K_BACK)
-        p "exit"
         Window.draw_font(0, 0, "end", Font.default, color: C_GREEN)
-        break
+        Window.pause
     end
     
     Window.draw_box(1, hantei1 , 800 , hantei1+1, C_RED)
