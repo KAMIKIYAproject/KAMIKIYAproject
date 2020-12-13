@@ -119,6 +119,9 @@ Window.load_resources do
             elsif score<=100
                 Window.draw_font(100, 100, " S ", Font.new(64), color: C_RED)
             end
+            if Input.key_push?(K_SPACE)
+               mode = :title 
+            end
         end
     end
 end
