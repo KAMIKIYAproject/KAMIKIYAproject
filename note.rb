@@ -1,6 +1,6 @@
 class Note < Sprite
   
-  attr_reader :flag_show_ok,:flag_show_miss
+  attr_reader :flag_show_ok,:flag_show_miss,:ok_count,:miss_count
   def initialize(x, y, image, keycode)
     super(x, y, image)
     @keycode = keycode
