@@ -10,6 +10,7 @@ Image.register(:notec, 'images/note_c.png')
 Image.register(:noted, 'images/note_d.png')
 Image.register(:op, 'images/back1.png')
 Image.register(:opening, 'images/back2.png')
+Image.register(:res, 'images/back3.png')
 
 
 Window.load_resources do
@@ -20,6 +21,8 @@ Window.load_resources do
     # note_img.set_color_key([0, 0, 0])
     play_img = Image[:op]
     opening_img = Image[:opening]#op画像
+    result_img = Image[:res]
+
     notea_img = Image[:notea]
     notea_img.set_color_key([255, 255, 255])
     noteb_img = Image[:noteb]
@@ -48,7 +51,6 @@ Window.load_resources do
     # mode = :result    # リザルト画面
     
     Window.loop do
-        
         # タイトル画面の表示とか
         if mode == :title
             # コードを書く
@@ -107,7 +109,26 @@ Window.load_resources do
         # リザルト画面の表示など
         elsif mode == :result
             # コードを書く
-            
+            score = 70
+            Window.draw(0, 0, result_img, z=0)
+            Window.draw_font(500, 100, " OK  : 70", Font.new(32), color: C_BLACK)
+            Window.draw_font(500, 150, "miss : 30", Font.new(32), color: C_BLACK)
+            # Window.draw_font(600, 100, " OK  : #{Note.ok_count}", Font.default, color: C_BLACK)
+            # Window.draw_font(600, 150, "miss : #{Note.miss_count}", Font.default, color: C_BLACK)
+            # score = Note.ok_count / (Note.ok_count + Note.miss_count) 
+            Window.draw_font(100, 500, "score: #{score.to_f} %", Font.default, color: C_BLACK)
+            if score <=25
+                Window.draw_font(100, 100, " C ", Font.new(64), color: C_BLACK)
+            elsif score<=50
+                Window.draw_font(100, 100, " B ", Font.new(64), color: C_BLUE)
+            elsif score<=75
+                Window.draw_font(100, 100, " A ", Font.new(64), color: C_MAGENTA)
+            elsif score<=100
+                Window.draw_font(100, 100, " S ", Font.new(64), color: C_RED)
+            end
+            if Input.key_push?(K_SPACE)
+               mode = :title 
+            end
         end
     end
 end
