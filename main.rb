@@ -12,6 +12,9 @@ Image.register(:noteb, 'images/note_b.png')
 Image.register(:notec, 'images/note_c.png')
 Image.register(:noted, 'images/note_d.png')
 Image.register(:op, 'images/back1.png')
+Image.register(:opening, 'images/back2.png')
+Image.register(:res, 'images/back3.png')
+
 
 Window.load_resources do
 
@@ -21,6 +24,9 @@ Window.load_resources do
 	
 	# 画像の設定
 	play_img = Image[:op]
+    opening_img = Image[:opening]#op画像
+    result_img = Image[:res]
+    
 	notea_img = Image[:notea]
 	notea_img.set_color_key([255, 255, 255])
 	noteb_img = Image[:noteb]
@@ -37,18 +43,18 @@ Window.load_resources do
 	# noted = Note.new(400, 300, noted_img, K_M)
 	# note = [notea,noteb,notec,noted]
 	
-    # ノーマルモード用：４列    
-    lane_pos_xs = [100, 200, 300, 400]      # レーンの位置(x座標のみ)
-    note_imgs = [notea_img, noteb_img, notec_img, noted_img]    # ノーツ画像
-    note_keycodes = [K_V, K_B, K_N, K_M]    # ノーツの反応するキー
+	# ノーマルモード用：４列    
+	lane_pos_xs = [100, 200, 300, 400]      # レーンの位置(x座標のみ)
+	note_imgs = [notea_img, noteb_img, notec_img, noted_img]    # ノーツ画像
+	note_keycodes = [K_V, K_B, K_N, K_M]    # ノーツの反応するキー
 
-    # ハードモード用：６列(譜面も変える必要があるので取り扱い注意)
-    # lane_pos_xs = [100, 200, 300, 400, 500, 600]      # レーンの位置(x座標のみ)
-    # note_imgs = [notea_img, noteb_img, notec_img, noted_img, notea_img, noteb_img]    # ノーツ画像
-    # note_keycodes = [K_X, K_C, K_V, K_B, K_N, K_M]    # ノーツの反応するキー
+	# ハードモード用：６列(譜面も変える必要があるので取り扱い注意)
+	# lane_pos_xs = [100, 200, 300, 400, 500, 600]      # レーンの位置(x座標のみ)
+	# note_imgs = [notea_img, noteb_img, notec_img, noted_img, notea_img, noteb_img]    # ノーツ画像
+	# note_keycodes = [K_X, K_C, K_V, K_B, K_N, K_M]    # ノーツの反応するキー
 	
 	# 譜面を生成
-    music = Music.new(lane_pos_xs, note_imgs, note_keycodes)
+	music = Music.new(lane_pos_xs, note_imgs, note_keycodes)
 
 	# 判定用の基準線
 	hantei1 = Window.height * 11 / 12
@@ -72,8 +78,9 @@ Window.load_resources do
 		# タイトル画面の表示とか
 		if mode == :title
 			# コードを書く
-		
-		
+			#.draw(x, y, image, z = 0) ⇒ Object
+			Window.draw(0, 0, opening_img, z=0)#画像表示
+
 		# プレイ中の表示や操作
 		elsif mode == :play
 			Window.draw(0, 0, play_img, z=0)
@@ -129,7 +136,27 @@ Window.load_resources do
 		# リザルト画面の表示など
 		elsif mode == :result
 			# コードを書く
-			
+			score = 70
+			Window.draw(0, 0, result_img, z=0)
+			Window.draw_font(500, 100, " OK  : 70", Font.new(32), color: C_BLACK)
+			Window.draw_font(500, 150, "miss : 30", Font.new(32), color: C_BLACK)
+			# Window.draw_font(600, 100, " OK  : #{Note.ok_count}", Font.default, color: C_BLACK)
+			# Window.draw_font(600, 150, "miss : #{Note.miss_count}", Font.default, color: C_BLACK)
+			# score = Note.ok_count / (Note.ok_count + Note.miss_count) 
+			Window.draw_font(100, 500, "score: #{score.to_f} %", Font.default, color: C_BLACK)
+			if score <=25
+				Window.draw_font(100, 100, " C ", Font.new(64), color: C_BLACK)
+			elsif score<=50
+				Window.draw_font(100, 100, " B ", Font.new(64), color: C_BLUE)
+			elsif score<=75
+				Window.draw_font(100, 100, " A ", Font.new(64), color: C_MAGENTA)
+			elsif score<=100
+				Window.draw_font(100, 100, " S ", Font.new(64), color: C_RED)
+			end
+			if Input.key_push?(K_SPACE)
+			   mode = :title 
+			end
 		end
 	end
+
 end
