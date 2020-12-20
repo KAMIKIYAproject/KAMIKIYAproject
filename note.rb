@@ -22,7 +22,7 @@ class Note < Sprite
 	# ノーツの状態を更新：消えるor消えない
 	def update(ablekeydown)
 		@ablekeydown = ablekeydown
-		self.y += 2	# ノーツの落ちる速度
+		self.y += 6	# ノーツの落ちる速度
 		if ablekeydown and Input.key_push?(@keycode) == true
 			# p "keydown"
 			self.vanish

@@ -74,7 +74,7 @@ Window.load_resources do
 			  mode = :play
 			  
 			  	# 譜面を新しく生成(リスタート用)
-				music = Music.new(lane_pos_xs, note_imgs, note_keycodes)
+				music.reset
 				
 				# 音楽を再生
 				Sound[:play_sound].play
@@ -84,6 +84,7 @@ Window.load_resources do
 		elsif mode == :play
 			# 画面表示
 			Window.draw(0, 0, play_img, z=0)
+			
 			# 判定線の表示		
 			Window.draw_box(1, hantei1 , 800 , hantei1+1, C_RED)
 			Window.draw_box(1, hantei2 , 800 , hantei2+1, C_RED)
@@ -104,6 +105,12 @@ Window.load_resources do
 				# スペースキーでポーズ終了
 				if Input.key_push?(K_SPACE) then
 					flag_pause = false
+				
+				# リスタート用に隠しコマンド
+				elsif Input.key_push?(K_ESCAPE) then
+					Sound[:play_sound].stop
+					flag_pause = false
+					mode = :result
 				end
 
 			# ポーズしてないときは通常プレイ							
@@ -124,7 +131,7 @@ Window.load_resources do
 			
 			# スコアの計算と表示
 			score = results[:ok_count] * 100 / (results[:ok_count] + results[:miss_count]) 
-			Window.draw_font(100, 500, "score: #{score.to_f} %", Font.new(32), color: C_BLACK)
+			Window.draw_font(100, 500, "score: #{score.to_f.round(2)} %", Font.new(32), color: C_BLACK)
 			
 			# スコアに応じてランク付け(４段階)＆表示
 			if score <= 25
