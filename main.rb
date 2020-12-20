@@ -148,7 +148,7 @@ Window.load_resources do
 			Window.draw_font(500, 150, "miss : 30", Font.new(32), color: C_BLACK)
 			# Window.draw_font(600, 100, " OK  : #{Note.ok_count}", Font.default, color: C_BLACK)
 			# Window.draw_font(600, 150, "miss : #{Note.miss_count}", Font.default, color: C_BLACK)
-			# score = Note.ok_count / (Note.ok_count + Note.miss_count) 
+			# score = Note.ok_count*100 / (Note.ok_count + Note.miss_count) 
 			Window.draw_font(100, 500, "score: #{score.to_f} %", Font.new(32), color: C_BLACK)
 			if score <=25
 				Window.draw_font(100, 100, " C ", Font.new(64), color: C_BLACK)
