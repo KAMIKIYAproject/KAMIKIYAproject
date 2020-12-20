@@ -11,9 +11,9 @@ Image.register(:notea, 'images/note_a.png')
 Image.register(:noteb, 'images/note_b.png')
 Image.register(:notec, 'images/note_c.png')
 Image.register(:noted, 'images/note_d.png')
-Image.register(:op, 'images/back1.png')
+Image.register(:playing, 'images/back1.png')
 Image.register(:opening, 'images/back2.png')
-Image.register(:res, 'images/back3.png')
+Image.register(:result, 'images/back3.png')
 
 Sound.register(:play_sound, 'sounds/maou_14_shining_star.mp3')
 
@@ -25,9 +25,9 @@ Window.load_resources do
 	Window.height = 600
 	
 	# 画像の設定
-	play_img = Image[:op]
-	opening_img = Image[:opening]#op画像
-	result_img = Image[:res]
+	play_img = Image[:playing]
+	opening_img = Image[:opening]	#op画像
+	result_img = Image[:result]
 	
 	notea_img = Image[:notea]
 	notea_img.set_color_key([255, 255, 255])
@@ -38,23 +38,11 @@ Window.load_resources do
 	noted_img = Image[:noted]
 	noted_img.set_color_key([255, 255, 255])
 	
-	# テスト用ノード
-	# notea = Note.new(100, 300, notea_img, K_V)
-	# noteb = Note.new(200, 300, noteb_img, K_B)
-	# notec = Note.new(300, 300, notec_img, K_N)
-	# noted = Note.new(400, 300, noted_img, K_M)
-	# note = [notea,noteb,notec,noted]
-	
 	# ノーマルモード用：４列    
 	lane_pos_xs = [160, 320, 480, 640]      # レーンの位置(x座標のみ)
 	note_imgs = [notea_img, noteb_img, notec_img, noted_img]    # ノーツ画像
 	note_keycodes = [K_V, K_B, K_N, K_M]    # ノーツの反応するキー
 
-	# ハードモード用：６列(譜面も変える必要があるので取り扱い注意)
-	# lane_pos_xs = [100, 200, 300, 400, 500, 600]      # レーンの位置(x座標のみ)
-	# note_imgs = [notea_img, noteb_img, notec_img, noted_img, notea_img, noteb_img]    # ノーツ画像
-	# note_keycodes = [K_X, K_C, K_V, K_B, K_N, K_M]    # ノーツの反応するキー
-	
 	# 譜面を生成
 	music = Music.new(lane_pos_xs, note_imgs, note_keycodes)
 
@@ -67,8 +55,6 @@ Window.load_resources do
 	# :middleがOKライン
 	hantei_lines = {:upper => hantei3, :middle => hantei2, :under => hantei1}
 	
-	# loop_count = 0
-	
 	# 画面切り替え用変数：mode
 	mode = :title   # タイトル画面
 	# mode = :play  # プレイ画面
@@ -79,14 +65,16 @@ Window.load_resources do
 		
 		# タイトル画面の表示とか
 		if mode == :title
-			# コードを書く
-			#.draw(x, y, image, z = 0) ⇒ Object
-			Window.draw(0, 0, opening_img, z=0)#画像表示
+			Window.draw(0, 0, opening_img, z=0)	#画像表示
+			
+			# スペースキーでプレイ画面へ
 			if Input.key_push?(K_SPACE)
 			  mode = :play
 			  
-			  	# 譜面を新しく生成
+			  	# 譜面を新しく生成(リスタート用)
 				music = Music.new(lane_pos_xs, note_imgs, note_keycodes)
+				
+				# 音楽を再生
 				Sound[:play_sound].play
 			end
 
@@ -94,11 +82,13 @@ Window.load_resources do
 		elsif mode == :play
 			Window.draw(0, 0, play_img, z=0)
 			
-			if Input.key_push?(K_BACK)
+			# 緊急停止用(ポーズする)
+			if Input.key_push?(K_BACK) or Input.key_push?(K_ESCAPE)
 				Window.draw_font(0, 0, "end", Font.default, color: C_BLACK)
 				Window.pause
 			end
-		
+			
+			# 判定線の表示		
 			Window.draw_box(1, hantei1 , 800 , hantei1+1, C_RED)
 			Window.draw_box(1, hantei2 , 800 , hantei2+1, C_RED)
 			Window.draw_box(1, hantei3 , 800 , hantei3+1, C_RED)
@@ -108,62 +98,32 @@ Window.load_resources do
 				Sound[:play_sound].stop
 				mode = :result
 			end
-			
-			# note.each do |n| 
-			# 	# p note.length
-			# 	if !n.vanished?
-			# 		#n.update
-			# 		flag_ablekeydown = false
-			# 		if n.y+n.image.height >= hantei3 and n.y+n.image.height <= hantei1
-			# 			flag_ablekeydown = true
-			# 		end
-			# 		if n.y+n.image.height >= hantei2 and n.y <= hantei2
-			# 			Window.draw_box(1, hantei2 , 800 , hantei2+1, C_BLUE)
-			# 		end
 		
-			# 		n.update(flag_ablekeydown)
-		
-			# 		if  n.vanished? == true
-			# 			n.hyouka(loop_count)
-			# 		end
-	
-			# 		n.draw
-				   
-			# 	end
-	
-			# 	n.show_ok(loop_count)
-			# 	n.show_miss(loop_count)
-			# 	# p "flag_show_ok(#{n.object_id}):#{n.flag_show_ok}"
-			# 	# p "flag_show_miss(#{n.object_id}):#{n.flag_show_miss}"
-				 
-			# 	if n.y == hantei1
-			# 		n.vanish
-			# 	end
-			
-			#end
-			# loop_count += 1
-		
-		# リザルト画面の表示など
+		# リザルト画面の表示
 		elsif mode == :result
-			# 結果の取得
-			results = music.get_result
-
 			Window.draw(0, 0, result_img, z=0)
 
+			# カウントの表示
+			results = music.get_result	# 結果の取得
 			Window.draw_font(500, 100, " OK  : #{results[:ok_count]}", Font.default, color: C_BLACK)
 			Window.draw_font(500, 150, "miss : #{results[:miss_count]}", Font.default, color: C_BLACK)
+			
+			# スコアの計算と表示
 			score = results[:ok_count] * 100 / (results[:ok_count] + results[:miss_count]) 
-
 			Window.draw_font(100, 500, "score: #{score.to_f} %", Font.new(32), color: C_BLACK)
-			if score <=25
+			
+			# スコアに応じてランク付け(４段階)＆表示
+			if score <= 25
 				Window.draw_font(100, 100, " C ", Font.new(64), color: C_BLACK)
-			elsif score<=50
+			elsif score <= 50
 				Window.draw_font(100, 100, " B ", Font.new(64), color: C_BLUE)
-			elsif score<=75
+			elsif score <= 75
 				Window.draw_font(100, 100, " A ", Font.new(64), color: C_MAGENTA)
-			elsif score<=100
+			elsif score <= 100
 				Window.draw_font(100, 100, " S ", Font.new(64), color: C_RED)
 			end
+			
+			# スペースキーでタイトルへ戻る
 			if Input.key_push?(K_SPACE)
 			   mode = :title 
 			end

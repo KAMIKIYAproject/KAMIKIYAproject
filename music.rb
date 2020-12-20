@@ -60,54 +60,55 @@ class Music
 
 		# moveがtrueのノーツを更新
 		# head = Array.new(@lane + 1) do true end  # 先頭のみを消したかった
-		@notes.each_with_index do |notes, i| notes.each_with_index do |note, j|
-			if  note[:move] and !note[:note].vanished? then   # 出現済み # 消されてない
-				@notes[i][j][:note].draw
-
-				# 判定：消せるか
-				able_keydown = false
-				if  note[:note].y + note[:note].image.height >= vanish_lines[:upper] and
-					note[:note].y + note[:note].image.height <= vanish_lines[:under] then
-
-					able_keydown = true
-				end
-				
-				# 先頭ひとつだけを消したかった
-				# able_keydown &= head[j]
-				# head[j] = false
-				
-				# 判定：OK判定ラインに乗っているか
-				mergin = 5  # 判定の厳しさ(大きければ大きいほど厳しい)
-				if  note[:note].y - note[:note].image.height + mergin >= vanish_lines[:middle] and
-					note[:note].y + mergin <= vanish_lines[:middle] then
+		@notes.each_with_index do |notes, i| 
+			notes.each_with_index do |note, j|
+				if  note[:move] and !note[:note].vanished? then   # 出現済み # 消されてない
+					@notes[i][j][:note].draw
+	
+					# 判定：消せるか
+					able_keydown = false
+					if  note[:note].y + note[:note].image.height >= vanish_lines[:upper] and
+						note[:note].y + note[:note].image.height <= vanish_lines[:under] then
+	
+						able_keydown = true
+					end
 					
-					able_keydown &= true
-					# Window.draw_box(1, vanish_lines[:middle], 800, vanish_lines[:middle] + 1, C_BLUE)
+					# 先頭ひとつだけを消したかった
+					# able_keydown &= head[j]
+					# head[j] = false
+					
+					# 判定：OK判定ラインに乗っているか
+					mergin = 5  # 判定の厳しさ(大きければ大きいほど厳しい)
+					if  note[:note].y - note[:note].image.height + mergin >= vanish_lines[:middle] and
+						note[:note].y + mergin <= vanish_lines[:middle] then
+						
+						able_keydown &= true
+						# Window.draw_box(1, vanish_lines[:middle], 800, vanish_lines[:middle] + 1, C_BLUE)
+					end
+					
+					# ノーツの状態を更新
+					@notes[i][j][:note].update(able_keydown)
+					
+					# 最下層に来たら勝手に消える(ミスになる？)
+					if !note[:note].vanished? and note[:note].y >= vanish_lines[:under] then
+						note[:note].vanish
+						# note[:note].show_miss(@current_flame)
+					end
+					
+					# ノーツがこのフレームで消えていたら表示を出す
+					if note[:note].vanished?
+						hyouka = @notes[i][j][:note].hyouka(@current_flame)
+						if hyouka then @ok_count += 1
+						elsif !hyouka then @miss_count += 1 end
+					end
 				end
 				
-				# ノーツの状態を更新
-				@notes[i][j][:note].update(able_keydown)
-				
-				# 最下層に来たら勝手に消える(ミスになる？)
-				if !note[:note].vanished? and note[:note].y >= vanish_lines[:under] then
-					note[:note].vanish
-					# note[:note].show_miss(@current_flame)
-				end
-				
-				# ノーツがこのフレームで消えていたら表示を出す
-				if note[:note].vanished?
-					hyouka = @notes[i][j][:note].hyouka(@current_flame)
-					if hyouka then @ok_count += 1
-					elsif !hyouka then @miss_count += 1 end
+				# ノーツごとに判定結果の表示を行う(おそらく１つのメソッドにできそう)
+				if note[:note] != nil then
+					note[:note].show_ok(@current_flame)
+					note[:note].show_miss(@current_flame)
 				end
 			end
-			
-			# ノーツごとに判定結果の表示を行う(おそらく１つのメソッドにできそう)
-			if note[:note] != nil then
-				note[:note].show_ok(@current_flame)
-				note[:note].show_miss(@current_flame)
-			end
-		end
 		end
 		
 		# カレントを進める
@@ -115,11 +116,12 @@ class Music
 		
 		# すべてのvanishしているノーツがいなくなったら(即座に)ゲームを終わる
 		check_finish = true
-		@notes.each do |notes| notes.each do |note| 
-			if note[:note] != nil then 
-				check_finish &= note[:note].vanished? 
+		@notes.each do |notes|
+			notes.each do |note| 
+				if note[:note] != nil then 
+					check_finish &= note[:note].vanished? 
+				end
 			end
-		end
 		end 
 		
 		return check_finish
@@ -224,12 +226,6 @@ class Music
 			# if flame % 60 == 46 and jndex == 3 then  # テスト用
 			#     @notes[flame][jndex][:note] = Note.new(@lane_pos_xs[jndex], -50, @note_imgs[jndex], @note_keycodes[jndex])
 			# end
-			
-			# ハードモード用
-			# if flame % 59 == 0 and jndex == 4 then
-			#     @notes[flame][jndex][:note] = Note.new(@lane_pos_xs[jndex], -50, @note_imgs[jndex], @note_keycodes[jndex])
-			# elsif flame % 47 == 0 and jndex == 5 then
-			#     @notes[flame][jndex][:note] = Note.new(@lane_pos_xs[jndex], -50, @note_imgs[jndex], @note_keycodes[jndex])
 			
 			if music_map[flame][jndex] == 1 then
 				@notes[flame][jndex][:note] = Note.new(@lane_pos_xs[jndex], -50, @note_imgs[jndex], @note_keycodes[jndex])
