@@ -24,9 +24,9 @@ Window.load_resources do
 	
 	# 画像の設定
 	play_img = Image[:op]
-    opening_img = Image[:opening]#op画像
-    result_img = Image[:res]
-    
+	opening_img = Image[:opening]#op画像
+	result_img = Image[:res]
+	
 	notea_img = Image[:notea]
 	notea_img.set_color_key([255, 255, 255])
 	noteb_img = Image[:noteb]
@@ -80,6 +80,9 @@ Window.load_resources do
 			# コードを書く
 			#.draw(x, y, image, z = 0) ⇒ Object
 			Window.draw(0, 0, opening_img, z=0)#画像表示
+			if Input.key_push?(K_SPACE)
+			  mode = :play
+			end
 
 		# プレイ中の表示や操作
 		elsif mode == :play
