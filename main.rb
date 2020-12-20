@@ -59,6 +59,8 @@ Window.load_resources do
 	mode = :title   # タイトル画面
 	# mode = :play  # プレイ画面
 	# mode = :result    # リザルト画面
+
+	flag_pause = false	# ポーズ画面かどうか（true: ポーズ中，false: ポーズじゃない）
 	
 	# メインループ
 	Window.loop do
@@ -80,21 +82,33 @@ Window.load_resources do
 
 		# プレイ中の表示や操作
 		elsif mode == :play
+			# 画面表示
 			Window.draw(0, 0, play_img, z=0)
-			
-			# 緊急停止用(ポーズする)
-			if Input.key_push?(K_BACK) or Input.key_push?(K_ESCAPE)
-				Window.draw_font(0, 0, "end", Font.default, color: C_BLACK)
-				Window.pause
-			end
-			
 			# 判定線の表示		
 			Window.draw_box(1, hantei1 , 800 , hantei1+1, C_RED)
 			Window.draw_box(1, hantei2 , 800 , hantei2+1, C_RED)
 			Window.draw_box(1, hantei3 , 800 , hantei3+1, C_RED)
-	
-			# 画面遷移：プレイが終わったらリザルト画面へ
-			if music.update(hantei_lines)
+
+			# 緊急停止用(ポーズする)
+			if Input.key_push?(K_BACK) or Input.key_push?(K_ESCAPE)
+				# Window.pause
+				flag_pause = true
+			end
+			
+			# ポーズ中
+			if flag_pause then
+				# ポーズ表示(とりあえず版)
+				Window.draw_font(Window.width / 2 - 50, Window.height / 2, "PAUSE", Font.default, color: C_BLACK)
+				Window.draw_font(Window.width / 2 - 50, Window.height / 2 + 50, "Restart: press Space-Key", Font.default, color: C_BLACK)
+				
+				# スペースキーでポーズ終了
+				if Input.key_push?(K_SPACE) then
+					flag_pause = false
+				end
+
+			# ポーズしてないときは通常プレイ							
+			# ノーツを流す＆ゲームプレイ＆画面遷移：プレイが終わったらリザルト画面へ
+			elsif music.update(hantei_lines)
 				Sound[:play_sound].stop
 				mode = :result
 			end
