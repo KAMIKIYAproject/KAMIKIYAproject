@@ -68,8 +68,8 @@ Window.load_resources do
 	# loop_count = 0
 	
 	# 画面切り替え用変数：mode
-	# mode = :title   # タイトル画面
-	mode = :play  # プレイ画面
+	mode = :title   # タイトル画面
+	# mode = :play  # プレイ画面
 	# mode = :result    # リザルト画面
 	
 	# メインループ
@@ -82,6 +82,9 @@ Window.load_resources do
 			Window.draw(0, 0, opening_img, z=0)#画像表示
 			if Input.key_push?(K_SPACE)
 			  mode = :play
+			  
+			  	# 譜面を新しく生成
+				music = Music.new(lane_pos_xs, note_imgs, note_keycodes)
 			end
 
 		# プレイ中の表示や操作
