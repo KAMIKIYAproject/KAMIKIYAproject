@@ -65,12 +65,4 @@ class Note < Sprite
 			end
 		end
 	end
-	
-	def get_ok_count
-		return @ok_count
-	end
-	
-	def get_miss_count
-		return @miss_count
-	end
 end

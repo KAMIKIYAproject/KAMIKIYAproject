@@ -249,6 +249,7 @@ class Music
 		end
 	end
 	
+	# フォーマットを整えて結果を返す
 	def get_result
 		return {ok_count: @ok_count, miss_count: @miss_count}
 	end
