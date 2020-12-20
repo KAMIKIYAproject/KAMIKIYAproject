@@ -85,8 +85,9 @@ class Music
 				@notes[i][j][:note].update(able_keydown)
 				
 				# 最下層に来たら勝手に消える(ミスになる？)
-				if note[:note].vanished? and note[:note].y >= vanish_lines[:under] then
-					note.vanish
+				if !note[:note].vanished? and note[:note].y >= vanish_lines[:under] then
+					note[:note].vanish
+					note[:note].show_miss(@current_flame)
 				end
 				
 				# ノーツがこのフレームで消えていたら表示を出す
