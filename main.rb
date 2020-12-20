@@ -44,7 +44,7 @@ Window.load_resources do
 	# note = [notea,noteb,notec,noted]
 	
 	# ノーマルモード用：４列    
-	lane_pos_xs = [100, 200, 300, 400]      # レーンの位置(x座標のみ)
+	lane_pos_xs = [160, 320, 480, 640]      # レーンの位置(x座標のみ)
 	note_imgs = [notea_img, noteb_img, notec_img, noted_img]    # ノーツ画像
 	note_keycodes = [K_V, K_B, K_N, K_M]    # ノーツの反応するキー
 
@@ -149,7 +149,7 @@ Window.load_resources do
 			# Window.draw_font(600, 100, " OK  : #{Note.ok_count}", Font.default, color: C_BLACK)
 			# Window.draw_font(600, 150, "miss : #{Note.miss_count}", Font.default, color: C_BLACK)
 			# score = Note.ok_count / (Note.ok_count + Note.miss_count) 
-			Window.draw_font(100, 500, "score: #{score.to_f} %", Font.default, color: C_BLACK)
+			Window.draw_font(100, 500, "score: #{score.to_f} %", Font.new(32), color: C_BLACK)
 			if score <=25
 				Window.draw_font(100, 100, " C ", Font.new(64), color: C_BLACK)
 			elsif score<=50
