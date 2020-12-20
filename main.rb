@@ -56,7 +56,9 @@ Window.load_resources do
             # コードを書く
             #.draw(x, y, image, z = 0) ⇒ Object
         Window.draw(0, 0, opening_img, z=0)#画像表示
-        
+        if Input.key_push?(K_SPACE)
+        　mode = :play
+        end
         
         
         # プレイ中の表示や操作
