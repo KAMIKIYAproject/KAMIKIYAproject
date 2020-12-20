@@ -146,29 +146,15 @@ Window.load_resources do
 		# リザルト画面の表示など
 		elsif mode == :result
 			# 結果の取得
-			p "results"
 			results = music.get_result
-			p results[:ok_count].to_f
-			p results[:miss_count].to_f
-			
-			# score = 70
-			Window.draw(0, 0, result_img, z=0)
-<<<<<<< HEAD
-			# Window.draw_font(500, 100, " OK  : 70", Font.new(32), color: C_BLACK)
-			# Window.draw_font(500, 150, "miss : 30", Font.new(32), color: C_BLACK)
-			Window.draw_font(600, 100, " OK  : #{results[:ok_count]}", Font.default, color: C_BLACK)
-			Window.draw_font(600, 150, "miss : #{results[:miss_count]}", Font.default, color: C_BLACK)
-			score = results[:ok_count] / (results[:ok_count] + results[:miss_count]) 
 
-			Window.draw_font(100, 500, "score: #{score.to_f} %", Font.default, color: C_BLACK)
-=======
-			Window.draw_font(500, 100, " OK  : 70", Font.new(32), color: C_BLACK)
-			Window.draw_font(500, 150, "miss : 30", Font.new(32), color: C_BLACK)
-			# Window.draw_font(600, 100, " OK  : #{Note.ok_count}", Font.default, color: C_BLACK)
-			# Window.draw_font(600, 150, "miss : #{Note.miss_count}", Font.default, color: C_BLACK)
-			# score = Note.ok_count*100 / (Note.ok_count + Note.miss_count) 
+			Window.draw(0, 0, result_img, z=0)
+
+			Window.draw_font(500, 100, " OK  : #{results[:ok_count]}", Font.default, color: C_BLACK)
+			Window.draw_font(500, 150, "miss : #{results[:miss_count]}", Font.default, color: C_BLACK)
+			score = results[:ok_count] * 100 / (results[:ok_count] + results[:miss_count]) 
+
 			Window.draw_font(100, 500, "score: #{score.to_f} %", Font.new(32), color: C_BLACK)
->>>>>>> 8c7d3fe5a69cc41b55e41fd4fdedb65bfbabe592
 			if score <=25
 				Window.draw_font(100, 100, " C ", Font.new(64), color: C_BLACK)
 			elsif score<=50

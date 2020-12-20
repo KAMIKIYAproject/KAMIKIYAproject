@@ -115,7 +115,12 @@ class Music
 		
 		# すべてのvanishしているノーツがいなくなったら(即座に)ゲームを終わる
 		check_finish = true
-		@notes.each do |notes| notes.each do |note| if note[:note] != nil then check_finish &= note[:note].vanished? end end end
+		@notes.each do |notes| notes.each do |note| 
+			if note[:note] != nil then 
+				check_finish &= note[:note].vanished? 
+			end
+		end
+		end 
 		
 		return check_finish
 	end
