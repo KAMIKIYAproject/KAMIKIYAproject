@@ -36,6 +36,10 @@ class Music
 		
 		# 譜面をセット(中身を詰めたり)
 		self.set_notes
+	
+		# リザルト用のカウンタ	
+		@ok_count = 0	# OKの数
+		@miss_count = 0	# MISSの数
 	end
 	
 	# def initialize(filepath)
@@ -87,12 +91,14 @@ class Music
 				# 最下層に来たら勝手に消える(ミスになる？)
 				if !note[:note].vanished? and note[:note].y >= vanish_lines[:under] then
 					note[:note].vanish
-					note[:note].show_miss(@current_flame)
+					# note[:note].show_miss(@current_flame)
 				end
 				
 				# ノーツがこのフレームで消えていたら表示を出す
 				if note[:note].vanished?
-					@notes[i][j][:note].hyouka(@current_flame)
+					hyouka = @notes[i][j][:note].hyouka(@current_flame)
+					if hyouka then @ok_count += 1
+					elsif !hyouka then @miss_count += 1 end
 				end
 			end
 			
@@ -171,7 +177,7 @@ class Music
 				[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],
 				[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],
 				[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],
-				[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,1,0,0],
+				[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],
 				[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],
 
 				# 4 sec
@@ -241,5 +247,9 @@ class Music
 				end
 			end
 		end
+	end
+	
+	def get_result
+		return {ok_count: @ok_count, miss_count: @miss_count}
 	end
 end

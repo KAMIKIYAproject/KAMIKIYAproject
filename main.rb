@@ -15,6 +15,8 @@ Image.register(:op, 'images/back1.png')
 Image.register(:opening, 'images/back2.png')
 Image.register(:res, 'images/back3.png')
 
+Sound.register(:play_sound, 'sounds/maou_14_shining_star.mp3')
+
 
 Window.load_resources do
 
@@ -85,6 +87,7 @@ Window.load_resources do
 			  
 			  	# 譜面を新しく生成
 				music = Music.new(lane_pos_xs, note_imgs, note_keycodes)
+				Sound[:play_sound].play
 			end
 
 		# プレイ中の表示や操作
@@ -102,6 +105,7 @@ Window.load_resources do
 	
 			# 画面遷移：プレイが終わったらリザルト画面へ
 			if music.update(hantei_lines)
+				Sound[:play_sound].stop
 				mode = :result
 			end
 			
@@ -141,14 +145,20 @@ Window.load_resources do
 		
 		# リザルト画面の表示など
 		elsif mode == :result
-			# コードを書く
-			score = 70
+			# 結果の取得
+			p "results"
+			results = music.get_result
+			p results[:ok_count].to_f
+			p results[:miss_count].to_f
+			
+			# score = 70
 			Window.draw(0, 0, result_img, z=0)
-			Window.draw_font(500, 100, " OK  : 70", Font.new(32), color: C_BLACK)
-			Window.draw_font(500, 150, "miss : 30", Font.new(32), color: C_BLACK)
-			# Window.draw_font(600, 100, " OK  : #{Note.ok_count}", Font.default, color: C_BLACK)
-			# Window.draw_font(600, 150, "miss : #{Note.miss_count}", Font.default, color: C_BLACK)
-			# score = Note.ok_count / (Note.ok_count + Note.miss_count) 
+			# Window.draw_font(500, 100, " OK  : 70", Font.new(32), color: C_BLACK)
+			# Window.draw_font(500, 150, "miss : 30", Font.new(32), color: C_BLACK)
+			Window.draw_font(600, 100, " OK  : #{results[:ok_count]}", Font.default, color: C_BLACK)
+			Window.draw_font(600, 150, "miss : #{results[:miss_count]}", Font.default, color: C_BLACK)
+			score = results[:ok_count] / (results[:ok_count] + results[:miss_count]) 
+
 			Window.draw_font(100, 500, "score: #{score.to_f} %", Font.default, color: C_BLACK)
 			if score <=25
 				Window.draw_font(100, 100, " C ", Font.new(64), color: C_BLACK)

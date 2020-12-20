@@ -12,8 +12,6 @@ class Note < Sprite
 		super(x, y, image)
 		@keycode = keycode	# 反応するキー
 		@hantei2 = Window.height * 10 / 12	# OKの基準ライン
-		@ok_count = 0	# OKを獲得した個数
-		@miss_count = 0	# NGを獲得した個数
 		@loop_count = 0	# ループカウンター：表示時間を計算する
 		@mes_show_time = 20	# メッセージの表示時間
 		@mes_show_height = 100	# メッセージの表示位置：高さのみ
@@ -24,7 +22,7 @@ class Note < Sprite
 	# ノーツの状態を更新：消えるor消えない
 	def update(ablekeydown)
 		@ablekeydown = ablekeydown
-		self.y += 1
+		self.y += 4
 		if ablekeydown and Input.key_push?(@keycode) == true
 			# p "keydown"
 			self.vanish
@@ -53,7 +51,6 @@ class Note < Sprite
 			else
 				@flag_show_ok = false	# なぞの条件式１，たぶん代入がしたい
 			end
-			@ok_count += 1
 		end
 	end
 	
@@ -66,8 +63,14 @@ class Note < Sprite
 			else
 				@flag_show_miss = false	# なぞの条件式２，たぶん代入がしたい
 			end
-			@miss_count += 1
 		end
 	end
-
+	
+	def get_ok_count
+		return @ok_count
+	end
+	
+	def get_miss_count
+		return @miss_count
+	end
 end
